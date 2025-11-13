@@ -7,7 +7,7 @@ class BookmarkBase(BaseModel):
     url: HttpUrl 
     title: str = Field(..., min_length=1, max_length=200, description="Название закладки")
     description: Optional[str] = Field(None, max_length=500, description="Описание")
-    tags: List[str] = Field(default=[])
+    tags: dict[str, str] = Field(default={"None" : "None"})
 
     @field_validator('title')
     @classmethod
@@ -28,18 +28,10 @@ class BookmarkBase(BaseModel):
         return v
        
 
-
-
-
-
-
-
-
-
-
 class BookmarkCreate(BookmarkBase):
-    """Загатовка для создания закладки"""
-    pass
+    id: int
+    created_at: datetime
+    updated_at: datetime
 
 class BookmarkUpdate(BaseModel):
     """Модель для обновления закладки"""
@@ -49,7 +41,7 @@ class BookmarkUpdate(BaseModel):
 
 class BookmarkResponse(BookmarkBase):
     """Модель для отображения закладки"""
-    id: str
+    id: int
     created_at: datetime
     updated_at: datetime
 
